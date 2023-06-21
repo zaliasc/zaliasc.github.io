@@ -1,6 +1,6 @@
 ---
 title: "深入理解Linux内核读书笔记"
-date: 2023-06-4
+date: 2023-06-04
 draft: false
 tags: ["Linux","system"]
 ---
