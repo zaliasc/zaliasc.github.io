@@ -20,7 +20,7 @@ Nvidia CEO 黄仁勋在 GTC（GPU技术大会）上提出：“用于通用计�
 
 网络的发展推动着DPU的出现，DPU的发展史也是网卡的发展史。
 
-![图片](/attachments/640.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647284.png)
 
 ### **第⼀阶段：基础功能网卡**
 
@@ -44,11 +44,11 @@ DPU可以看作是第二代智能网卡，它在第一代智能网卡的基础�
 
 DPU的功能主要包括了网络、计算、存储、安全多个方面。
 
-![图片](/attachments/640-16873150865223.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647742.png)
 
 基于网卡发展而来的DPU，其最核心的功能集中在网络方面，可以用于卸载网络虚拟化（OVS等）、SR-IOV、防火墙或任何其他需要高速数据包处理的应用程序。目前，主流的DPU支持高达200Gb/s的以太网和InfiniBand网络处理，释放CPU算力，从而解决主机上计算密集型应用的性能瓶颈。
 
-![图片](/attachments/640-16873151106026.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647020.png)
 
 
 
@@ -56,7 +56,7 @@ DPU的功能主要包括了网络、计算、存储、安全多个方面。
 
 对于计算，DPU可用于运行与服务器上的主管理程序不同的管理程序，从而使x86 CPU或GPU甚至FPGA成为另一种跨越整个数据中心多台服务器的集中资源。或者只是将这些资源直接连接到DPU，由DPU将它们暴露到网络上。这样以来，数据中心内的任何主机都可以访问各种处理引擎的资源，任何主机上的任何应用程序都可以自由地利用这些加速器，无论它们实际物理位置在哪里。
 
-![图片](/attachments/640-16873151248659.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647730.png)
 
 在数据中心 “以数据为中心” 的趋势下，DPU为云服务提供商提供了资源池化的新方式，使其能够在基础架构内的任何位置组合存储、网络和计算资源，实现按需分配，进一步提高资源的利用率，为数据中心降低成本，达到更高的经济效益。此外，通过将安全任务卸载到DPU上，云服务提供商能够在为云租户提供裸机即服务（bare-metal-as-a-service）的同时保证服务环境的正确性与安全性。AWS/阿里云纷纷自研，英特尔/英伟达竞相布局，DPU已经在各大数据中心展现出巨大的价值。
 
@@ -68,7 +68,7 @@ DPU的功能主要包括了网络、计算、存储、安全多个方面。
 
 DPU SoC的核心并不是一个高性能的嵌入式CPU，由于能耗限制，期待DPU的嵌入式CPU达到比主机CPU更强的数据处理能力是不现实的。对于传统的x86CPU来说，100Gb/s的数据包处理速度已经会带来巨大的处理负担，极端情况下甚至会导致数据包的堆积和丢失。在400Gb/s的高速网络下，期待DPU的低功耗嵌入式CPU去处理每个数据包并不是一个合理的解决方案。Nvidia的Bluefield DPU和Pensando的Elba DPU解决方案都表明，在数据包处理负担过重的情况下，由嵌入式CPU负责控制路径的初始化和异常情况的处理可能是更好的DPU实现方式。
 
-![图片](/attachments/640-168731515072012.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647795.png)
 
 DPU在架构上主要包含两个部分。首先是继承于智能网卡的网络处理单元，例如Nvidia Bluefield DPU集成了ConnectX-6网卡单元，Pensando的Elba DPU集成了P4的数据包处理流水线。网络处理单元具有高性能的网络接口，用来连接外部高速网络，目前的主流DPU产品支持100Gb/s~200Gb/s的网络接口，未来两到三年会逐步提升至400Gb/s甚至800Gb/s的水平。第二个部分是SoC，主要包含低功耗的嵌入式CPU和各种HAC（Hardware Accelerator）。嵌入式CPU通常会使用ARM核或者其他的低功耗处理器（Fungible使用了MIPS 64处理器）以控制DPU的整体功耗。有了嵌入式CPU的支撑，DPU都会运行完整一个完整的操作系统（通常是完整的Linux），带来了很强的可编程性，并配合各种灵活可编程的加速引擎用来提供更强的卸载和加速能力。
 
@@ -86,7 +86,7 @@ DPU在架构上主要包含两个部分。首先是继承于智能网卡的网�
 
 Nvidia于2020年收购Mellanox，同年推出基于ConnectX网卡的BlueField DPU产品，并于2021年推出了Bluefield-2 DPU产品。BlueField-2 DPU在ConnectX-6的基础上增加了SoC部分，由嵌入式CPU处理控制平面，CX6的eSwitch处理数据平面，从而构建完整的DPU处理单元。
 
-![图片](/attachments/640-168731519583218.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647019.png)
 
 **BlueField-2的主要规格如下：**
 
@@ -105,7 +105,7 @@ Nvidia于2020年收购Mellanox，同年推出基于ConnectX网卡的BlueField DP
 
 Fungible是首批为其提供的这种新型处理器命名为DPU的公司之一。
 
-![图片](/attachments/640-168731521629021.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647984.png)
 
 **Fungible F1主要规格如下：**
 
@@ -124,7 +124,7 @@ Fungible是首批为其提供的这种新型处理器命名为DPU的公司之一
 
 Pensando是一家云创业公司，由一群著名的前思科工程师创立。Elba DPU由嵌入式CPU处理控制平面，P4流水线处理数据平面。
 
-![图片](/attachments/640-168731524496124.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211647079.png)
 
 **pensando Elba主要规格如下：**
 
@@ -141,7 +141,7 @@ Pensando是一家云创业公司，由一群著名的前思科工程师创立。
 
 Nvidia推出BlueField-2 DPU时，提出了未来三年DPU的路标。总体上来看，其核心是以400Gb/s的链路速度为代表的高速网络处理能力，以及更强的片上CPU处理能力。
 
-![图片](/attachments/640-168731526696327.png)、、
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211648303.png)、、
 
 目前，Nvidia已经发布了新一代DPU BlueField-3。它支持400Gbps网络，采用32通道PCIe Gen 5.0，搭载16核Armv8.2+ A78 CPU，具有16GB板载DDR5[7]，较上一代DPU性能实现了极大的提升。
 
@@ -155,7 +155,7 @@ AWS的Nitro是DPU在云基础设施中应用的首批示例之一。Amazo Web Se
 
 AWS Elastic Compute Cloud实例基于PCIe连接的Nitro卡以及X86或Arm处理器和DRAM。有各种EC2实例类型—通用型或针对计算、内存、存储、机器学习和横向扩展用例进行了优化[8]。
 
-![图片](/attachments/640-168731529414730.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211648297.png)
 
 ## 七、总结
 
