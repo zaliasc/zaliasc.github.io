@@ -1,0 +1,181 @@
+---
+title: "排序算法总结"
+date: 2023-06-20
+draft: false
+tags: ["algorithm","sort"]
+# categories: ["ca1"]
+---
+
+
+**不稳定排序算法**
+
+[堆排序]、[快速排序]、[希尔排序]、[直接选择排序]
+
+**稳定排序算法**
+
+[基数排序]、[冒泡排序]、[直接插入排序]、[折半插入排序]、[归并排序]
+
+### 1.冒泡排序
+
+```c++
+void bubble_sort(vector<int> &arry){
+    for(int i = 0 ;i< array.size()-1 ; i++){
+        int index = 0 ;
+        for(int j = 0; j < array.size()- 1 - i ;j ++){
+            if(array[j] > array[j+1])
+                swap(array[j],array[j+1]);
+        }
+    }
+}
+```
+
+<!--more-->
+
+### 2.选择排序
+
+```c++
+void select_sort(vector<int> &arry){
+    for(int i = 0 ;i< array.size();i++){
+        int index = i ;
+        for(int j = i+ 1; j< array.size(); j++)
+            if(array[j]<array[index])
+                index = j;
+    }
+    swap(array[index],array[i]);
+}
+```
+
+### 3.插入排序(简单插入排序)
+
+```c++
+void insert_sort(vector<int> &arry){
+    for(int i = 1;i< array.size();i++){
+        int index = i-1;
+        int cur = array[i];
+        while(index >=0 && array[i]<array[index])
+        {
+            array[index+1]=array[index];
+            index -- ;
+        }
+        array[index+1] = cur;
+    }
+}
+```
+
+### 4.希尔排序
+
+```c++
+void shell_sort(vector<int> &array){
+    int n = array.size();
+    for(int gap = n/2 ; gap > 0; gap /=2){
+        for(int i = gap;i< n ;i++){
+           insert(array,gap,i); 
+        }
+    }
+}
+
+void insert(vector<int> &array, int gap, int i){
+    int inserted = array[i];
+    int j;
+    for(int j = i-gap; j>=0 && inserted < array[j]; j-= gap)
+        array[j+gap] = array[j];
+    array[j+gap] = inserted;
+}
+```
+
+### 5.快速排序
+
+```c++
+void quick_sort(vector<int> &arry, int left ,int right){
+    if(left < right){
+        int p = partition(array,left,right);
+        quick_sort(array,left,p-1);
+        quick_sort(array,p+1,right);
+    }
+}
+
+int partition(vector<int> &arry, int left ,int right){
+    int p = left;
+    int index = p+1;
+    for(int i = index ; i<=right;i++){
+        if(array[i]<array[index]){
+            swap(array[i],array[index]);
+        	index++;
+    	}
+    }
+    swap(array[p],array[index-1]);
+    return index-1;
+}
+```
+
+### 6.归并排序
+
+```c++
+void merge_sort(vector<int> &array,int left,int right){
+    if(left<right){
+        int mid = left + (right - left) >> 1;
+        merge_sort(array,left,mid);
+        merge_sort(array,mid+1,right);
+        merge(array,left,mid,right);
+    }
+}
+
+void merge(vector<int> &array,int left,int mid ,int right){
+    int * tmp = new int[right - left + 1];
+    int i = left;
+    int j = mid+1;
+    int index = 0;
+    while(i<=mid && j<= right)
+        tmp[index++] = array[i]<array[j]?array[i++]:array[j++];
+    while(i<=mide)
+        tmp[index++] = array[i++];
+    while(j<=right)
+        tmp[index++] = array[j++];
+    for(int i = 0 ;i< right - left +1 ; i++)
+        array[left + i] = tmp[i];
+    delete tmp;
+}
+```
+
+### 7.堆排序
+
+```c++
+void heap_sort(vector<int> &array,int size){
+    //构建大根堆
+    for(int i = size/2 -1 ; i>=0 ;i--)
+    	adjust_heap(array,size,i);
+    //调整大根堆
+    for(int i = size - 1;i> = 1; i--){
+        swap(array[0],array[i]);// 将当前最大的放置到数组末尾
+        adjust(array,i,0); //将未完成排序的部分继续进行堆排序
+    }
+}
+
+void adjust_heap(vector<int> &array, int len, int index){
+    //len是array的长度，index是第一个非叶子节点的下标
+    if(index > len)
+        return;
+    int leftc = 2*index + 1;
+    int rightc = 2*index + 2;
+    int maxindex = index;
+    if(leftc < len && array[leftc] > array[maxindex]) maxindex = leftc;
+    if(rightc < len && array[right] > array[maxinnex]) maxindex = rightc;
+    if(maxindex != index){
+        swap(array[idnex],array[maxindex]);
+        adjust_heap(array,len,maxindex);
+    }
+}
+```
+
+
+
+### 8.计数排序
+
+
+
+### 9.基数排序
+
+
+
+### 10.桶排序
+
