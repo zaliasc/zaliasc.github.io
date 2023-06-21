@@ -72,7 +72,7 @@ DPU SoC的核心并不是一个高性能的嵌入式CPU，由于能耗限制，�
 
 DPU在架构上主要包含两个部分。首先是继承于智能网卡的网络处理单元，例如Nvidia Bluefield DPU集成了ConnectX-6网卡单元，Pensando的Elba DPU集成了P4的数据包处理流水线。网络处理单元具有高性能的网络接口，用来连接外部高速网络，目前的主流DPU产品支持100Gb/s~200Gb/s的网络接口，未来两到三年会逐步提升至400Gb/s甚至800Gb/s的水平。第二个部分是SoC，主要包含低功耗的嵌入式CPU和各种HAC（Hardware Accelerator）。嵌入式CPU通常会使用ARM核或者其他的低功耗处理器（Fungible使用了MIPS 64处理器）以控制DPU的整体功耗。有了嵌入式CPU的支撑，DPU都会运行完整一个完整的操作系统（通常是完整的Linux），带来了很强的可编程性，并配合各种灵活可编程的加速引擎用来提供更强的卸载和加速能力。
 
-![图片](/attachments/640-168731516443815.png)
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211701374.png)
 
 为了灵活使用DPU上的各种加速器，厂商通常会提供相应的SDK（通常会与开源生态相兼容），Nvidia DPU就提供了DOCA（Data-Center-Infrastructure-On-A-Chip Architecture）SDK来实现更加灵活便捷的硬件控制方式和编程手段，并集成P4、DPDK等，以利用开源生态。简单来说，DOCA于DPU就像CUDA于GPU，这也是Nvidia将DPU和CPU、GPU列为未来的三大计算支撑的一个着力点。
 
@@ -141,7 +141,7 @@ Pensando是一家云创业公司，由一群著名的前思科工程师创立。
 
 Nvidia推出BlueField-2 DPU时，提出了未来三年DPU的路标。总体上来看，其核心是以400Gb/s的链路速度为代表的高速网络处理能力，以及更强的片上CPU处理能力。
 
-![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211648303.png)、、
+![图片](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211648303.png)
 
 目前，Nvidia已经发布了新一代DPU BlueField-3。它支持400Gbps网络，采用32通道PCIe Gen 5.0，搭载16核Armv8.2+ A78 CPU，具有16GB板载DDR5[7]，较上一代DPU性能实现了极大的提升。
 
