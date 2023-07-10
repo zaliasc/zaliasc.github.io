@@ -15,6 +15,13 @@ tags: ["tips"]
 " base settings {{{
 """""""""""""""""""""""""""""""""按键映射(just for colemak user)"""""""""""""""""""""""""""""""
 
+" insert mode shortcut
+inoremap <C-h> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-l> <Right>
+inoremap <C-d> <DELETE>
+
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
