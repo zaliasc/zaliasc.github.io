@@ -23,13 +23,19 @@ wikipedia:
 
 ![image-20230710194506591](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307101945753.png)
 
+ref: https://datatracker.ietf.org/doc/html/rfc3550#section-5.1
+
 ### RTCP协议
 
 ​	在RTP数据包的传输过程中，对于出现丢包、抖动、乱序的情况时，由 RTCP 协议进行控制。
 
 ![image-20230710195212377](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307101952801.png)
 
-字段解释：TODO.
+ref: 
+
+rtcp_type: https://datatracker.ietf.org/doc/html/rfc3550#section-6.4.1
+
+SR type: https://datatracker.ietf.org/doc/html/rfc5760#autoid-5
 
 ## 媒体协商
 
@@ -224,7 +230,10 @@ webrtc-SIP 端：
 
 ## Reference
 
-[^1]:  [真实世界中的WebRTC](https://michaelyou.github.io/2018/08/01/%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E4%B8%AD%E7%9A%84WebRTC/)
-[^2 ]:  [What Are STUN, TURN, and ICE?](https://developer.liveswitch.io/liveswitch-server/guides/what-are-stun-turn-and-ice.html)
-[^3 ]: [coturn](https://github.com/coturn/coturn)
-[^4 ]: [从0打造音视频直播系统](https://time.geekbang.org/column/article/107916)
+[1] [真实世界中的WebRTC](https://michaelyou.github.io/2018/08/01/%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E4%B8%AD%E7%9A%84WebRTC/)
+
+[2] [What Are STUN, TURN, and ICE?](https://developer.liveswitch.io/liveswitch-server/guides/what-are-stun-turn-and-ice.html)
+
+[3] [coturn](https://github.com/coturn/coturn)
+
+[4] [从0打造音视频直播系统](https://time.geekbang.org/column/article/107916)
