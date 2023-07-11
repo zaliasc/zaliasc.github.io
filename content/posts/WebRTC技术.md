@@ -21,7 +21,7 @@ wikipedia:
 
 ### RTP 协议
 
-g![image-20230710194506591](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307101945753.png)
+![image-20230710194506591](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307101945753.png)
 
 ### RTCP协议
 
@@ -224,10 +224,7 @@ webrtc-SIP 端：
 
 ## Reference
 
-[^1] [真实世界中的WebRTC](https://michaelyou.github.io/2018/08/01/%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E4%B8%AD%E7%9A%84WebRTC/)
-
-[^2] [What Are STUN, TURN, and ICE?](https://developer.liveswitch.io/liveswitch-server/guides/what-are-stun-turn-and-ice.html)
-
-[^3] [coturn](https://github.com/coturn/coturn)
-
-[^4] [从0打造音视频直播系统](https://time.geekbang.org/column/article/107916)
+[^1]:  [真实世界中的WebRTC](https://michaelyou.github.io/2018/08/01/%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E4%B8%AD%E7%9A%84WebRTC/)
+[^2 ]:  [What Are STUN, TURN, and ICE?](https://developer.liveswitch.io/liveswitch-server/guides/what-are-stun-turn-and-ice.html)
+[^3 ]: [coturn](https://github.com/coturn/coturn)
+[^4 ]: [从0打造音视频直播系统](https://time.geekbang.org/column/article/107916)

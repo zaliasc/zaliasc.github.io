@@ -1,5 +1,5 @@
 ---
-title: "Dramsim3使用记录"
+title: "Dramsim3接入记录"
 date: 2023-07-06
 draft: false
 tags: ["Linux","simulation"]
