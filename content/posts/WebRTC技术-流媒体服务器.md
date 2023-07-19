@@ -51,7 +51,7 @@ MCU服务器的处理流程一般包括几个步骤：
 
 其一般架构如下：
 
-![image-20230712180027550](attachments/image-20230712180027550.png)
+![image-20230719112238799](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307191122711.png)
 
 服务端可以根据客户端的需求和网络质量，来选择转发不同的媒体流。
 
