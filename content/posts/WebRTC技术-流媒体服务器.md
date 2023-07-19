@@ -2,7 +2,7 @@
 title: "webRTC技术-流媒体服务器"
 date: 2023-04-20
 draft: false
-tags: ["video/audio"，"webrtc"]
+tags: ["video/audio","webrtc"]
 ---
 
 ## 多对多通信模型
