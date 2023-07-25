@@ -1,0 +1,127 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Linux内核-中断和异常 - zaliasc's Blog</title><meta name=Description content="This is my cool site"><meta property="og:title" content="Linux内核-中断和异常"><meta property="og:description" content="中断和异常 中断 中断信号提供一种方式，让CPU去处理正常控制流之外的代码。 中断分类 中断 可屏蔽中断 不可屏蔽中断 异常：分为三类，取决于异常发生时e"><meta property="og:type" content="article"><meta property="og:url" content="http://example.org/posts/linux%E5%86%85%E6%A0%B8-%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8%E7%AF%87/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-07-25T00:00:00+00:00"><meta property="article:modified_time" content="2023-07-25T00:00:00+00:00"><meta property="og:site_name" content="My cool site"><meta name=twitter:card content="summary"><meta name=twitter:title content="Linux内核-中断和异常"><meta name=twitter:description content="中断和异常 中断 中断信号提供一种方式，让CPU去处理正常控制流之外的代码。 中断分类 中断 可屏蔽中断 不可屏蔽中断 异常：分为三类，取决于异常发生时e"><meta name=application-name content="My cool site"><meta name=apple-mobile-web-app-title content="My cool site"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=http://example.org/posts/linux%E5%86%85%E6%A0%B8-%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8%E7%AF%87/><link rel=prev href=http://example.org/posts/linux%E5%86%85%E6%A0%B8-%E8%BF%9B%E7%A8%8B%E7%AF%87/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Linux内核-中断和异常","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"http:\/\/example.org\/posts\/linux%E5%86%85%E6%A0%B8-%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8%E7%AF%87\/"},"genre":"posts","keywords":"Linux, system","wordcount":1246,"url":"http:\/\/example.org\/posts\/linux%E5%86%85%E6%A0%B8-%E4%B8%AD%E6%96%AD%E5%92%8C%E5%BC%82%E5%B8%B8%E7%AF%87\/","datePublished":"2023-07-25T00:00:00+00:00","dateModified":"2023-07-25T00:00:00+00:00","publisher":{"@type":"Organization","name":""},"author":{"@type":"Person","name":"zaliasc"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="zaliasc's Blog">Zaliasc's Blog</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder="Search titles or contents..." id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span>
+</span><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="zaliasc's Blog">Zaliasc's Blog</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder="Search titles or contents..." id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=Search><i class="fas fa-search fa-fw" aria-hidden=true></i></a>
+<a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=Clear><i class="fas fa-times-circle fa-fw" aria-hidden=true></i></a>
+<span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>Cancel</a></div><a class=menu-item href=/posts/ title>文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a href=javascript:void(0); class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Linux内核-中断和异常</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=/ title=Author rel=author class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>zaliasc</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2023-07-25>2023-07-25</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;1246 words&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;3 minutes&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#中断>中断</a><ul><li><a href=#中断分类>中断分类</a></li><li><a href=#中断描述表-idt_table>中断描述表 idt_table</a></li></ul></li><li><a href=#硬件处理流程>硬件处理流程</a></li><li><a href=#源码分析>源码分析</a></li><li><a href=#中断处理>中断处理</a></li><li><a href=#软中断及-tasklet>软中断及 tasklet</a></li><li><a href=#reference>Reference</a></li></ul></nav></div></div><div class=content id=content><h1 id=中断和异常>中断和异常</h1><h2 id=中断>中断</h2><p>中断信号提供一种方式，让CPU去处理正常控制流之外的代码。</p><h3 id=中断分类>中断分类</h3><p>中断</p><ul><li>可屏蔽中断</li><li>不可屏蔽中断</li></ul><p>异常：分为三类，取决于异常发生时eip保存的值</p><ul><li>fault，eip保存上一条故障的指令地址</li><li>trap，eip保存上一条故障的指令地址随后要保存的地址，主要作用是程序调试</li><li>abort，硬件故障</li></ul><h3 id=中断描述表-idt_table>中断描述表 idt_table</h3><p>idt_table 定义为一个 大小为 255 的数组</p><p><code>gate_desc idt_table[NR_VECTORS] __page_aligned_data = { { { { 0, 0 } } }, };</code></p><p>每一项 gate_desc（代码来自Linux code 2.6.39）</p><pre tabindex=0><code>typedef struct desc_struct gate_desc;
+
+struct desc_struct {
+	union {
+		struct {
+			unsigned int a;
+			unsigned int b;
+		};
+		struct {
+			u16 limit0;
+			u16 base0;
+			unsigned base1: 8, type: 4, s: 1, dpl: 2, p: 1;
+			unsigned limit: 4, avl: 1, l: 1, d: 1, g: 1, base2: 8;
+		};
+	};
+} __attribute__((packed));
+</code></pre><p>在 <code>trap_init</code>中对 idt_table 进行初始化：</p><pre tabindex=0><code>void __init trap_init(void)
+{
+	int i;
+
+#ifdef CONFIG_EISA
+	void __iomem *p = early_ioremap(0x0FFFD9, 4);
+
+	if (readl(p) == &#39;E&#39; + (&#39;I&#39;&lt;&lt;8) + (&#39;S&#39;&lt;&lt;16) + (&#39;A&#39;&lt;&lt;24))
+		EISA_bus = 1;
+	early_iounmap(p, 4);
+#endif
+
+	set_intr_gate(0, &amp;divide_error);
+	set_intr_gate_ist(2, &amp;nmi, NMI_STACK);
+	/* int4 can be called from all */
+	set_system_intr_gate(4, &amp;overflow);
+	set_intr_gate(5, &amp;bounds);
+	set_intr_gate(6, &amp;invalid_op);
+	set_intr_gate(7, &amp;device_not_available);
+#ifdef CONFIG_X86_32
+	set_task_gate(8, GDT_ENTRY_DOUBLEFAULT_TSS);
+#else
+	set_intr_gate_ist(8, &amp;double_fault, DOUBLEFAULT_STACK);
+#endif
+	set_intr_gate(9, &amp;coprocessor_segment_overrun);
+	set_intr_gate(10, &amp;invalid_TSS);
+	set_intr_gate(11, &amp;segment_not_present);
+	set_intr_gate_ist(12, &amp;stack_segment, STACKFAULT_STACK);
+	set_intr_gate(13, &amp;general_protection);
+	set_intr_gate(15, &amp;spurious_interrupt_bug);
+	set_intr_gate(16, &amp;coprocessor_error);
+	set_intr_gate(17, &amp;alignment_check);
+#ifdef CONFIG_X86_MCE
+	set_intr_gate_ist(18, &amp;machine_check, MCE_STACK);
+#endif
+	set_intr_gate(19, &amp;simd_coprocessor_error);
+
+	/* Reserve all the builtin and the syscall vector: */
+	for (i = 0; i &lt; FIRST_EXTERNAL_VECTOR; i++)
+		set_bit(i, used_vectors);
+
+#ifdef CONFIG_IA32_EMULATION
+	set_system_intr_gate(IA32_SYSCALL_VECTOR, ia32_syscall);
+	set_bit(IA32_SYSCALL_VECTOR, used_vectors);
+#endif
+
+#ifdef CONFIG_X86_32
+	set_system_trap_gate(SYSCALL_VECTOR, &amp;system_call);
+	set_bit(SYSCALL_VECTOR, used_vectors);
+#endif
+
+	/*
+	 * Should be a barrier for any external CPU state:
+	 */
+	cpu_init();
+
+	x86_init.irqs.trap_init();
+}
+</code></pre><p>根据不同的 DPL ，可以将中断描述符分为几类：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252134905.png data-srcset="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252134905.png, https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252134905.png 1.5x, https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252134905.png 2x" data-sizes=auto alt=https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252134905.png title=image-20230725213441157></p><p>几种设置的区别在与：DPL、段选择器地址</p><p>使用下列函数进行中断门的插入：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135199.png data-srcset="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135199.png, https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135199.png 1.5x, https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135199.png 2x" data-sizes=auto alt=https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135199.png title=image-20230725213539464></p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135757.png data-srcset="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135757.png, https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135757.png 1.5x, https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135757.png 2x" data-sizes=auto alt=https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307252135757.png title=image-20230725213552100></p><h2 id=硬件处理流程>硬件处理流程</h2><p>当CPU执行完一条指令后，cs和eip包含了下一条将要执行的指令地址，在进入下一条指令的执行之前，CPU会检查执行上一条指令的过程中是否发生了中断或异常。如果发生执行以下动作：</p><ol><li><strong>确定中断/异常向量 i</strong></li><li>读取<code>idtr</code>寄存器指向的 IDT 表中的第 i 项：中断描述表的起始地址加上中断向量号乘以8</li><li>从 <code>gdtr</code>中获取 GDT 的地址，并在 GDT 中查找，以读取 IDT 表项所标识的段描述符，<strong>获取中断/异常处理程序的基地址</strong>。</li><li>检查中断请求的特权级是否满足：比较 CPL（CS寄存器中） 和 DPL（段描述符中），不满足则产生 General protection 异常。</li><li>如果发生了特权级的变化，即 CPL 与 DPL 不同（被中断的程序和中断处理程序在不同特权级），那么必须开始使用新的特权级相关的栈：<ol><li>读取 tr 寄存器，访问被中断进程的 TSS 段。</li><li>使用新的特权级相关的栈，装载 ss (栈段寄存器) 和 esp （栈指针寄存器）</li><li>将被中断程序的 ss 和 esp 推入到中断处理程序的栈中</li></ol></li><li><strong>在栈中保存 eflags、cs、eip寄存器</strong></li><li>保存硬件出错码（如果异常产生了的话）</li><li><strong>装载 cs 和 eip 寄存器，指向中断处理程序</strong></li></ol><p>开始执行中断/异常处理程序</p><p>处理完成后执行 iret 指令：</p><ol><li>弹出 eflags、cs、eip寄存器</li><li>检查 CPL 与 DPL，不同则需要 弹出 ss 和 esp 寄存器</li><li>返回被中断程序的执行</li></ol><h2 id=源码分析>源码分析</h2><p>以系统调用为例，在触发硬件中断后，跳转到 system_call （entry_32.S）</p><pre tabindex=0><code>ENTRY(system_call)
+	RING0_INT_FRAME			# can&#39;t unwind into user space anyway
+	pushl_cfi %eax			# save orig_eax
+	SAVE_ALL
+	GET_THREAD_INFO(%ebp)
+					# system call tracing in operation / emulation
+	testl $_TIF_WORK_SYSCALL_ENTRY,TI_flags(%ebp)
+	jnz syscall_trace_entry
+	cmpl $(nr_syscalls), %eax
+	jae syscall_badsys
+syscall_call:
+	call *sys_call_table(,%eax,4)
+	movl %eax,PT_EAX(%esp)		# store the return value
+syscall_exit:
+	LOCKDEP_SYS_EXIT
+	DISABLE_INTERRUPTS(CLBR_ANY)	# make sure we don&#39;t miss an interrupt
+					# setting need_resched or sigpending
+					# between sampling and the iret
+	TRACE_IRQS_OFF
+	movl TI_flags(%ebp), %ecx
+	testl $_TIF_ALLWORK_MASK, %ecx	# current-&gt;work
+	jne syscall_exit_work
+
+restore_all:
+	TRACE_IRQS_IRET
+restore_all_notrace:
+	movl PT_EFLAGS(%esp), %eax	# mix EFLAGS, SS and CS
+	# Warning: PT_OLDSS(%esp) contains the wrong/random values if we
+	# are returning to the kernel.
+	# See comments in process.c:copy_thread() for details.
+	movb PT_OLDSS(%esp), %ah
+	movb PT_CS(%esp), %al
+	andl $(X86_EFLAGS_VM | (SEGMENT_TI_MASK &lt;&lt; 8) | SEGMENT_RPL_MASK), %eax
+	cmpl $((SEGMENT_LDT &lt;&lt; 8) | USER_RPL), %eax
+	CFI_REMEMBER_STATE
+	je ldt_ss			# returning to user-space with LDT SS
+restore_nocheck:
+	RESTORE_REGS 4			# skip orig_eax/error_code
+irq_return:
+	INTERRUPT_RETURN
+</code></pre><p>其中</p><p>call *sys_call_table(,%eax,4) 执行对应系统调用程序</p><p>RESTORE_REGS 4 恢复之前保存的寄存器</p><p>INTERRUPT_RETURN 就是 iret 指令，从中断程序返回</p><h2 id=中断处理>中断处理</h2><p>中断处理的主要部分在 __do__IRQ 中完成</p><h2 id=软中断及-tasklet>软中断及 tasklet</h2><p>todo.</p><h2 id=reference>Reference</h2><p>[1] 深入理解LINUX内核</p><p>[2] <a href="https://open.toutiao.com/a6951563322730840615/?utm_source=vivoliulanqi&utm_medium=webview&utm_campaign=open&label=related_news&item_id=6951563322730840615&gy=b691c991707e75f40b6951b1cceca90329bdb717425a006fa5011b560d941a44c4eae172607b0a013717b8e4a11d6a5d9470f31a174313de3a01795104f7f461&crypt=1408&req_id=20210622223520010212142018131CAE6A&fr=normal&isRelated=1&isNews=1&vivoRcdMark=1&from_gid=6937076362490479112&channel_id=88805669586" target=_blank rel="noopener noreffer">CPU中断那些事</a></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2023-07-25</span></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/linux/>Linux</a>,&nbsp;<a href=/tags/system/>system</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/linux%E5%86%85%E6%A0%B8-%E8%BF%9B%E7%A8%8B%E7%AF%87/ class=prev rel=prev title=Linux内核-进程篇><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Linux内核-进程篇</a></div></div><div id=comments><div id=gitalk class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://github.com/gitalk/gitalk></a>Gitalk</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.110.0">Hugo</a> | Theme - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2021 - 2023</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank>zaliasc</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:30},comment:{gitalk:{admin:["zaliasc"],clientID:"e99cee6375457176da1b",clientSecret:"4563c1275949c3aad80b1982b754356220a16fe1",id:"2023-07-25T00:00:00Z",owner:"zaliasc",repo:"hugo-repo-comment",title:"Linux内核-中断和异常"}},search:{highlightTag:"em",lunrIndexURL:"/index.json",maxResultLength:10,noResultsFound:"No results found",snippetLength:30,type:"lunr"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
