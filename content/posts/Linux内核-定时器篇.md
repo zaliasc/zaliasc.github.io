@@ -104,7 +104,7 @@ gettimeofday() 获取从1970.1.1以来的秒数 + 纳秒数
 
 ### setitimer() 和 alarm()
 
-emit.
+omit.
 
 ## Reference
 
