@@ -1,13 +1,11 @@
 ---
-title: "深入理解Linux内核笔记"
+title: "Linux内核-内存篇"
 date: 2023-06-04
-draft: false
+draft: true
 tags: ["Linux","system"]
 ---
 
-## 第二章 内存寻址
-
-### 地址分类
+## 地址分类
 
 - 逻辑地址：段+偏移量组成。
 - 线性地址，即虚拟地址，一个32位无符号整数，表示高达4GB的地址空间。
@@ -17,7 +15,7 @@ tags: ["Linux","system"]
 
 
 
-### 分段机制
+## 分段机制
 
 此部分可以参考 https://zhuanlan.zhihu.com/p/324210723 进行学习
 
@@ -56,7 +54,7 @@ CPU 的特权等级发生变化时（用户态 <--> 内核态），相应的段�
 
 
 
-### 硬件分页机制
+## 硬件分页机制
 
 https://zhuanlan.zhihu.com/p/480796773
 
@@ -86,63 +84,6 @@ https://zhuanlan.zhihu.com/p/480796773
 
 <img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211737965.png" alt="image-20230612165643253" style="zoom:50%;" />
 
-## 第三章 进程
+## Reference
 
-### TaskStruct结构
-
-![image-20230612171305862](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211737407.png)
-
-
-
-### 进程状态
-
-`可运行状态- task running`
-
-`可中断的等待状态- task interruptible`
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211737047.png" alt="image-20230612171518628" style="zoom: 50%;" />
-
-`不可中断的等待状态- task uninterruptible`
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211737204.png" alt="image-20230612171534570" style="zoom: 50%;" />
-
-`暂停状态- task_stopped`
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738569.png" alt="image-20230612171550684" style="zoom:50%;" />
-
-`跟踪状态- task_traced`
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738204.png" alt="image-20230612171605734" style="zoom:50%;" />
-
-两种EXIT_STATE状态
-
-`僵死状态- EXIT_ZOMBIE`
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738539.png" alt="image-20230612171810588" style="zoom:50%;" /><img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738355.png" alt="image-20230612171820766" style="zoom:50%;" />
-
-
-
-`僵死撤销状态- EXIT_DEAD`
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738160.png" alt="image-20230612171857858" style="zoom:50%;" />
-
-### 内核栈
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738057.png" alt="image-20230612173301075" style="zoom:50%;" />
-
-大小为8K，task_struct 和 thread_info 可以很方便的互相寻址
-
-<img src="https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202306211738477.png" alt="image-20230612173316818" style="zoom:50%;" />
-
-### 进程切换
-
-
-
-### 进程创建
-
-clone
-
-fork
-
-vfork
-
+[1] 深入理解LINUX内核
