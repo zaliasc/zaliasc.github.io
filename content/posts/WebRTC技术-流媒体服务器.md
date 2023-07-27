@@ -96,8 +96,16 @@ Janus 是一个开源的 WebRTC 流媒体服务器，在 Linux 环境下使用c�
 4. 客户端收集candidate并通过trickle消息发送给插件绑定的ICE通道，Janus发送webrtcup通知ICE通道建立；
 5. 客户端发送媒体数据；Janus发送media消息通知媒体数据的第一次到达；Janus进行媒体数据转发。
 
+### janus 作为 WebRTC 网关信令交互过程
+
+![image-20230727105558542](https://hugo-github-io.oss-cn-beijing.aliyuncs.com/img/202307271056945.png)
+
+
+
 ## Reference
 
 [1] 从0打造音视频直播系统
 
 [2] [janus 信令交互过程](https://www.52dianzi.com/bangong/?read-1686500485a2721.html)
+
+[3] [基于声网的音视频SDK和FreeSWITCH开发WebRTC2SIP Gateway](https://juejin.cn/post/6844904031484133389#heading-1)
